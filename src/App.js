@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -6,6 +6,20 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todoEditing, setTodoEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
+
+  useEffect(() => {
+    const todosJSON = localStorage.getItem("todos");
+    const parsedTodos = JSON.parse(todosJSON);
+
+    if (parsedTodos) {
+      setTodos(parsedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    const todosJSON = JSON.stringify(todos);
+    localStorage.setItem("todos", todosJSON);
+  }, [todos]);
 
   function handleSubmit(e) {
     e.preventDefault();
