@@ -19,9 +19,20 @@ function App() {
   }
 
   function deleteTodo(todoId) {
-    const updateTodos = [...todos].filter((todo) => todo.id !== todoId);
+    const updatedTodos = [...todos].filter((todo) => todo.id !== todoId);
 
-    setTodos(updateTodos);
+    setTodos(updatedTodos);
+  }
+
+  function toggleComplete(todoId) {
+    const updatedTodos = [...todos].map((todo) => {
+      if (todo.id === todoId) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+
+    setTodos(updatedTodos);
   }
 
   return (
@@ -34,6 +45,7 @@ function App() {
         <div>
           <div key={todo.id}>{todo.text}</div>
           <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          <input type="checkbox" checked={todo.completed} onChange={() => toggleComplete(todo.id)} />
         </div>
       ))}
     </div>
