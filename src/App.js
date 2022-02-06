@@ -4,6 +4,8 @@ import "./App.css";
 function App() {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
+  const [todoEditing, setTodoEditing] = useState(null);
+  const [editingText, setEditingText] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -35,6 +37,20 @@ function App() {
     setTodos(updatedTodos);
   }
 
+  function updateTodo(todoId) {
+    const updatedTodos = [...todos].map((todo) => {
+      if (todoId === todo.id) {
+        todo.text = editingText;
+      }
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+    setTodoEditing(null);
+    setEditingText("");
+  }
+
+
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>
@@ -43,9 +59,17 @@ function App() {
       </form>
       {todos.map(todo => (
         <div>
-          <div key={todo.id}>{todo.text}</div>
+          {
+            todoEditing === todo.id ?
+              (<input type="text" value={editingText} onChange={(e) => setEditingText(e.target.value)} />) :
+              (<div key={todo.id}>{todo.text}</div>)
+          }
           <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           <input type="checkbox" checked={todo.completed} onChange={() => toggleComplete(todo.id)} />
+          {todoEditing === todo.id ?
+            (<button onClick={() => updateTodo(todo.id)}>Update</button>) :
+            (<button onClick={() => setTodoEditing(todo.id)}>Edit</button>)
+          }
         </div>
       ))}
     </div>
