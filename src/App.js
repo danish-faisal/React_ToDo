@@ -76,7 +76,7 @@ function App() {
           {
             todoEditing === todo.id ?
               (<input type="text" value={editingText} onChange={(e) => setEditingText(e.target.value)} />) :
-              (<div key={todo.id}>{todo.text}</div>)
+              (<div key={todo.id} className={todo.completed ? "strike" : ""}>{todo.text}</div>)
           }
           <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           <input type="checkbox" checked={todo.completed} onChange={() => toggleComplete(todo.id)} />

@@ -106,3 +106,7 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .strike {
+    text-decoration: line-through;
+  }
